@@ -1,0 +1,55 @@
+#!/bin/sh
+
+apply_home(){
+  pushd ~/.dotfiles
+  sudo home-manager switch -I ./users/yly/home.nix
+  popd
+}
+
+apply_sys(){
+  pushd ~/.dotfiles
+  sudo nixos-rebuild switch -I nixos-config=./system/configuration.nix
+  popd
+}
+
+update_home(){
+  nix-channel --update
+}
+
+update_sys(){
+  sudo nix-channel --update
+}
+
+test_home(){
+  pushd ~/.dotfiles
+  sudo home-manager test -I ./users/yly/home.nix
+  popd
+}
+
+test_sys(){
+  pushd ~/.dotfiles
+  sudo nixos-rebuild test -I nixos-config=./system/configuration.nix
+  popd
+}
+
+gen_root(){
+  pushd ~/.dotfiles
+  sudo nixos-generate-config --dir ./system 
+  popd
+}
+gen_mnt(){
+  pushd ~/.dotfiles
+  sudo nixos-generate-config --dir ./system --root /mnt 
+  popd
+}
+
+case $1 in
+ahome ) apply_home;;
+asys ) apply_sys;;
+uhome ) update_home;;
+usys ) update_sys;;
+thome ) test_home;;
+tsys) test_sys;;
+gr ) gen_root;;
+gm ) gen_mnt;;
+esac

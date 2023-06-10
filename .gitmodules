@@ -1,0 +1,3 @@
+[submodule "system/config/clash"]
+	path = system/config/clash
+	url = git@gitee.com:ylyhappy/clash-only-config.git
